@@ -3,10 +3,36 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View
 from webapp.models import AccountUser, ShoppingCategory, ShoppingItem, ShoppingItemsInCart, ShoppingPurchase, ShoppingPurchaseDetail, AdministratorAdmin
+from django.db.models import Q
 # from webapp.forms import UserForm
 
 def main(request):
     return render(request, "shopping/main.html")
+
+def searchResult(request):
+
+    keyword = request.GET.get('keyword')
+    category = request.GET.get('category')
+
+    products = ShoppingItem.objects.all()
+
+    if category:
+        products = products.filter(category__name=category)
+
+    if keyword:
+        products = products.filter(
+            Q(name__icontains=keyword) |
+            Q(manufacturer__icontains=keyword) |
+            Q(color__icontains=keyword)
+        )
+
+    context = {
+        'keyword': keyword,
+        'category': category,
+        'products': products,
+    }
+
+    return render(request, "shopping/searchResult.html", context)
 
 
 # def login(request):
