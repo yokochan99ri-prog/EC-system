@@ -7,6 +7,17 @@ from webapp.models import AccountUser, ShoppingCategory, ShoppingItem, ShoppingI
 def main(request):
     return render(request, "shopping/main.html")
 
+def searchResult(request):
+
+    keyword = request.GET.get('keyword')
+    category = request.GET.get('category')
+    # context = {
+    #     'keyword': keyword,
+    #     'category': category,
+    # }
+
+    return render(request, "shopping/searchResult.html", {"keyword": keyword, "category": category})
+
 
 # def login(request):
 #     if request.session.get('is_login', None):
