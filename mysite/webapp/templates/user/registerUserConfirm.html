@@ -6,6 +6,13 @@
     <title>会員情報の更新</title>
 </head>
 <body>
+    <form action="{% url 'webapp:M04' %}" method="POST">
+        {% csrf_token %}
+        <p>ID: {{ data.user_id }}</p>
+        <p>名前: {{ data.name }}</p>
+        <p>住所: {{ data.address }}</p>
     
+        <input type="submit" value="登録確定">
+    </form>
 </body>
 </html>

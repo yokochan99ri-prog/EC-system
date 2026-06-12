@@ -5,8 +5,10 @@ from django.views.generic import View
 from django.db.models import Q
 from . import forms, models
 
+
 def main(request):  # S01
     return render(request, "shopping/main.html")
+
 
 def search_result(request): # S02
 
@@ -33,8 +35,10 @@ def search_result(request): # S02
 
     return render(request, "shopping/searchResult.html", context)
 
+
 def cart(request):  # S04
     return render(request, "shopping/cart.html")
+
 
 def login(request): # M01
     if request.session.get('is_login', None):
@@ -67,6 +71,7 @@ def login(request): # M01
     login_form = forms.UserForm()
     return render(request, 'user/login.html', locals())
 
+
 class RegisterUser(View):   # M02
 
     def get(self, request):
@@ -87,18 +92,36 @@ class RegisterUser(View):   # M02
             }
             return render(request, "user/registerUser.html", context)
         
-        new_user = models.AccountUser()
-        new_user.user_id = form.cleaned_data.get('user_id')
-        new_user.password = form.cleaned_data.get('password')
-        new_user.name = form.cleaned_data.get('name')
-        new_user.address = form.cleaned_data.get('address')
-        new_user.save()
-        return redirect(reverse('webapp:M01'))
+        request.session["register_data"] = form.cleaned_data
+        return redirect('webapp:M03')
+
 
 def register_user_confirm(request): # M03
-    return render(request, "user/registerUserConfirm.html")
+
+    data = request.session.get('register_data')
+
+    if not data:
+        return redirect('webapp:M02')
+
+    return render(request, "user/registerUserConfirm.html", {"data": data})
+
 
 def register_user_commit(request):  # M04
+
+    data = request.session.get('register_data')
+
+    if not data:
+        return redirect('webapp:M02')
+    
+    new_user = models.AccountUser()
+    new_user.user_id = data['user_id']
+    new_user.password = data['password']
+    new_user.name = data['name']
+    new_user.address = data['address']
+    new_user.save()
+    
+    del request.session['register_data']
+
     return render(request, "user/registerUserCommit.html")
 
 
