@@ -36,6 +36,13 @@ def search_result(request): # S02
     return render(request, "shopping/searchResult.html", context)
 
 
+def item_detail(request, item_id):  # S03
+    context = {
+        "item_id": item_id,
+    }
+    return render(request, 'shopping/itemDetail.html', context)
+
+
 def cart(request):  # S04
     return render(request, "shopping/cart.html")
 
