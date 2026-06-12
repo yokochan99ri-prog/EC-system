@@ -5,5 +5,5 @@ app_name = "webapp"
 
 urlpatterns = [
     path('', views.main, name='S01'),
-    path('login/', views.login, name='M01')
+    # path('login/', views.login, name='M01'),
 ]

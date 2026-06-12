@@ -2,17 +2,17 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View
 from webapp.models import AccountUser, ShoppingCategory, ShoppingItem, ShoppingItemsInCart, ShoppingPurchase, ShoppingPurchaseDetail, AdministratorAdmin
-from webapp.forms import UserForm
+# from webapp.forms import UserForm
 
 def main(request):
     return render(request, "shopping/main.html")
 
 
-# # def login(request):
+# def login(request):
 #     if request.session.get('is_login', None):
 #         return redirect('/')
 #     if request.method == 'POST':
-#         login_form = forms.UserForm(request.POST)
+#         login_form = forms.LoginForm(request.POST)
 #         message = '入力した内容を再度確認してください'
 #         if login_form.is_valid():
 #             user_id = login_form.cleaned_data.get('id')
@@ -32,4 +32,5 @@ def main(request):
 #         login_form = forms.UserForm()
 #         return render(request, 'user/login.html', locals())
 
-# 補足資料丸パクリ
+def login(request):
+    return render(request, "user/login.html")
