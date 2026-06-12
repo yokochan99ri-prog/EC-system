@@ -38,7 +38,7 @@ def cart(request):  # S04
 
 def login(request): # M01
     if request.session.get('is_login', None):
-        return redirect('/')
+        return redirect('webapp:S01')
     
     if request.method == 'POST':
         login_form = forms.UserForm(request.POST)
@@ -58,7 +58,7 @@ def login(request): # M01
             if user.password == password:
                 request.session['is_login']=True
                 request.session['user_id']=user.user_id
-                return redirect('/')
+                return redirect('webapp:S01')
             
             else:
                 message='パスワードが正しくありません。'
@@ -87,10 +87,11 @@ class RegisterUser(View):   # M02
             }
             return render(request, "user/registerUser.html", context)
         
-        new_user = forms.AccountUser()
+        new_user = models.AccountUser()
         new_user.user_id = form.cleaned_data.get('user_id')
         new_user.password = form.cleaned_data.get('password')
         new_user.name = form.cleaned_data.get('name')
+        new_user.address = form.cleaned_data.get('address')
         new_user.save()
         return redirect(reverse('webapp:M01'))
 
