@@ -34,6 +34,14 @@ def searchResult(request):
 
     return render(request, "shopping/searchResult.html", context)
 
+def cart(request):
+    return render(request, "shopping/cart.html")
+
+
+
+
+
+
 
 # def login(request):
 #     if request.session.get('is_login', None):
