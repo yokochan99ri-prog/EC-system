@@ -2,15 +2,42 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>検索結果</title>
 </head>
 <body>
+
     <h2>
-        キーワード "{{keyword}}"
-        カテゴリ "{{category}}"
+        キーワード「{{ keyword }}」
+        カテゴリ「{{ category }}」
         の検索結果
     </h2>
-    
+
+    <!-- 検索結果テーブル -->
+    <table border="1">
+        <tr>
+            <th>商品名</th>
+            <th>商品の色</th>
+            <th>メーカー名</th>
+            <th>価格</th>
+        </tr>
+
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.color }}</td>
+            <td>{{ product.manufacturer }}</td>
+            <td>{{ product.price }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">該当する商品がありません</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <a href='{% url "webapp:S01" %}'>商品検索</a>へ
+
 </body>
 </html>
