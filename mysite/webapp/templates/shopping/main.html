@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品検索</title>
+</head>
+<body>
+    <h2>商品の検索を行います。</h2>
+
+    <form action="{% url 'webapp:S02' %}" method="get">
+        
+        <label>カテゴリ</label>
+        <select name="category">
+            <option value="" selected>すべて</option>
+            <option value="家電">家電</option>
+            <option value="パソコン・周辺機器">パソコン・周辺機器</option>
+            <option value="文房具">文房具</option>
+            <option value="キッチン用品">キッチン用品</option>
+            <option value="スポーツ用品">スポーツ用品</option>
+        </select>
+
+        <label>キーワード:</label>
+        <input type="text" name="keyword">
+
+        <button type="submit">検索</button>
+    </form>
+
+    <p><a href='{% url "webapp:S01" %}'>ショッピングカートを見る</a></p>
+    <p>購入履歴</p>
+    <p><a href='{% url "webapp:M01" %}'>ログイン</a></p>
+    <p>管理者ページ</p>
+
+</body>
+</html>

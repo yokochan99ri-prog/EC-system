@@ -1,0 +1,24 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv='Content-Type' content='text/html'; charset="UTF-8">
+    <title>会員ログイン画面</title>
+    <!-- <link rel="stylesheet" type="text/css" href='{% static "account/css/style.css"}'> -->
+</head>
+<body>
+    <h3>ログインしてください。</h3>
+    <form action="{% url 'webapp:M01' %}" method="POST">
+        {% csrf_token %}
+        <table>
+            {{login_form}}
+            <tr>
+                <td colspan='2'><input type='submit' value='ログイン' /></td>
+            </tr>
+        </table>
+        {% if message %}
+            <div>{{message}}</div>
+        {% endif %}
+    </form>
+</body>
+</html>
