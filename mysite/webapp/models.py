@@ -4,11 +4,17 @@ class AccountUser(models.Model):
 
     class Meta:
         db_table = 'account_user'
+        ordering =['user_id']
+        verbose_name = 'ユーザ'
+        verbose_name_plural = 'ユーザ'
 
     user_id = models.CharField(verbose_name="会員ID", max_length=128, primary_key=True)
     password = models.CharField(verbose_name="パスワード", max_length=256)
     name = models.CharField(verbose_name="名前", max_length=128)
     address = models.CharField(verbose_name="住所", max_length=256)
+
+    def __str__(self):
+        return self.user_id
 
 class ShoppingCategory(models.Model):
 
