@@ -55,6 +55,8 @@ class ItemDetail(View): # S03
 
         product = models.ShoppingItem.objects.get(item_id=item_id)
         stock = product.stock
+        is_login = request.session.get('is_login', False)
+        
         if stock < 1:
             on_sale = False
             quantities = 0

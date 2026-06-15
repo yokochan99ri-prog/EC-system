@@ -33,18 +33,31 @@
     </table>
 
     {% if on_sale %}
-        <!-- <form action="{% url 'webapp:S04' %}" method="post"> -->
-        <form method="post">
-            {% csrf_token %}
-            数量
-            <select name="quantity">
-                {% for quantity in quantities %}
-                    <option value="{{ quantity }}">{{quantity}}</option>
-                {% endfor %}
-            </select>
-            <br>
-            <button type="submit">ショッピングカートに入れる</button>
-        </form>
+        {% if is_login %}
+            <form method="post">
+                {% csrf_token %}
+                数量
+                <select name="quantity">
+                    {% for quantity in quantities %}
+                        <option value="{{ quantity }}">{{quantity}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <button type="submit">ショッピングカートに入れる</button>
+            </form>
+        {% else %}
+            <form action="{% url 'webapp:M01' %}" method="post">
+                {% csrf_token %}
+                数量
+                <select name="quantity">
+                    {% for quantity in quantities %}
+                        <option value="{{ quantity }}">{{quantity}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <button type="submit">ショッピングカートに入れる</button>
+            </form>
+        {% endif %}
     {% else %}
         現在在庫切れです。
     {% endif %}
