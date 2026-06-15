@@ -87,8 +87,17 @@ def cart(request):  # S04
 
     user_id = request.session.get('user_id')
     cart_items = models.ShoppingItemsInCart.objects.filter(user_id = user_id).select_related('item')
+    total_cost = 0
+    for cart in cart_items:
+        total_cost += cart.item.price * cart.amount
 
-    return render(request, "shopping/cart.html", {"cart_items": cart_items})
+    context = {
+        "cart_items": cart_items,
+        "total_cost": total_cost,
+
+    }
+
+    return render(request, "shopping/cart.html", context)
 
 
 def login(request): # M01

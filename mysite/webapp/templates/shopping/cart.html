@@ -33,9 +33,13 @@
         {% endfor %}
     </table>
 
-    <br>
+    {% if cart_items %}
+        合計 {{ total_cost }} 円
+    {% endif %}
 
-    <a href='{% url "webapp:S01" %}'>商品検索</a>へ
+    <br><button>購入する</button>
+
+    <p><a href='{% url "webapp:S01" %}'>商品検索</a>へ</p>  
 
 </body>
 </html>
