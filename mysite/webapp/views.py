@@ -55,13 +55,14 @@ class ItemDetail(View): # S03
 
         product = models.ShoppingItem.objects.get(item_id=item_id)
         stock = product.stock
-        quantities = range(1, stock+1)
-        context = {
-            "product": product,
-            "quantities": quantities,
-        }
+        if stock < 1:
+            on_sale = False
+            quantities = 0
+        else:
+            on_sale = True
+            quantities = range(1, stock+1)
 
-        return render(request, 'shopping/itemDetail.html', context)
+        return render(request, 'shopping/itemDetail.html', locals())
     
     # def post(self, request):
 

@@ -32,17 +32,20 @@
         </tr>
     </table>
 
-    <form action="{% url 'webapp:S04' %}" method="get">
-        数量
-        <select name="quantity">
-            {% for q in quantities %}
-                <option value="{{ q }}">{{q}}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <button type="submit">ショッピングカートに入れる</button>
-    </form>
-
+    {% if on_sale %}
+        <form action="{% url 'webapp:S04' %}" method="get">
+            数量
+            <select name="quantity">
+                {% for q in quantities %}
+                    <option value="{{ q }}">{{q}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <button type="submit">ショッピングカートに入れる</button>
+        </form>
+    {% else %}
+        現在在庫切れです。
+    {% endif %}
 
     <p><a href="{% url 'webapp:S01' %}">商品検索</a>へ</p>
 </body>
