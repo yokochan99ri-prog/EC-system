@@ -23,6 +23,10 @@ def main(request):  # S01
     return render(request, "shopping/main.html", context)
 
 
+def logout(request):
+    pass
+
+
 def search_result(request): # S02
 
     keyword = request.GET.get('keyword')
