@@ -83,12 +83,10 @@ class ItemDetail(View): # S03
         return redirect(reverse('webapp:S04'))
 
 
-
 def cart(request):  # S04
 
     user_id = request.session.get('user_id')
-    cart_items = models.ShoppingItemsInCart.objects.filter(user_id=user_id)
-
+    cart_items = models.ShoppingItemsInCart.objects.filter(user_id = user_id).select_related('item')
 
     return render(request, "shopping/cart.html", {"cart_items": cart_items})
 

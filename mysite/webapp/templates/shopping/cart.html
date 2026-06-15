@@ -8,28 +8,30 @@
     <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/style.css' %}" />
 </head>
 <body>
-    <!-- <h3>ショッピングカート内の商品一覧</h3>
+    <h3>ショッピングカート内の商品一覧</h3>
     <table border="1">
         <tr>
             <th>商品名</th>
             <th>商品の色</th>
             <th>メーカー名</th>
-            <th>価格</th>
+            <th>単価</th>
+            <th>個数</th>
         </tr>
 
-        {% for product in products %}
-        <tr>
-            <td><a href="{% url 'webapp:S03' product.item_id %}">{{ cart_items.name }}</a></td>
-            <td>{{ product.color }}</td>
-            <td>{{ product.manufacturer }}</td>
-            <td>{{ product.price }}</td>
-        </tr>
+        {% for cart in cart_items %}
+            <tr>
+                <td>{{ cart.item.name }}</td>
+                <td>{{ cart.item.color }}</td>
+                <td>{{ cart.item.manufacturer }}</td>
+                <td>{{ cart.item.price }}</td>
+                <td>{{ cart.amount }}</td>
+            </tr>
         {% empty %}
-        <tr>
-            <td colspan="4">該当する商品がありません</td>
-        </tr>
+            <tr>
+                <td colspan="4">まだカートに商品が追加されていません</td>
+            </tr>
         {% endfor %}
-    </table> -->
+    </table>
 
     <br>
 
