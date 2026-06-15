@@ -37,8 +37,9 @@ def search_result(request): # S02
 
 
 def item_detail(request, item_id):  # S03
+    product = models.ShoppingItem.objects.get(item_id=item_id)
     context = {
-        "item_id": item_id,
+        "product": product,
     }
     return render(request, 'shopping/itemDetail.html', context)
 
