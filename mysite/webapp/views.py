@@ -49,12 +49,26 @@ def search_result(request): # S02
     return render(request, "shopping/searchResult.html", context)
 
 
-def item_detail(request, item_id):  # S03
-    product = models.ShoppingItem.objects.get(item_id=item_id)
-    context = {
-        "product": product,
-    }
-    return render(request, 'shopping/itemDetail.html', context)
+class ItemDetail(View): # S03
+
+    def get(self, request, item_id):
+
+        product = models.ShoppingItem.objects.get(item_id=item_id)
+        stock = product.stock
+        quantities = range(1, stock+1)
+        context = {
+            "product": product,
+            "quantities": quantities,
+        }
+
+        return render(request, 'shopping/itemDetail.html', context)
+    
+    # def post(self, request):
+
+    #     product_in_cart = models.ShoppingItemsInCart(request.POST)
+
+    #     if not product_in_cart.is_valid():
+
 
 
 def cart(request):  # S04

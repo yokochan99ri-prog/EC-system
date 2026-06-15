@@ -31,6 +31,19 @@
             <td>{{ product.stock }}</td>
         </tr>
     </table>
+
+    <form action="{% url 'webapp:S04' %}" method="get">
+        数量
+        <select name="quantity">
+            {% for q in quantities %}
+                <option value="{{ q }}">{{q}}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">ショッピングカートに入れる</button>
+    </form>
+
+
     <p><a href="{% url 'webapp:S01' %}">商品検索</a>へ</p>
 </body>
 </html>
