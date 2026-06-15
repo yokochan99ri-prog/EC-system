@@ -7,7 +7,20 @@ from . import forms, models
 
 
 def main(request):  # S01
-    return render(request, "shopping/main.html")
+
+    is_login = request.session.get('is_login', False)
+    if request.session.get('user_id', None):
+        user_id = request.session.get('user_id')
+        user = models.AccountUser.objects.get(user_id=user_id)
+    else:
+        user = None
+
+    context = {
+        'is_login': is_login,
+        'user': user,
+    }
+
+    return render(request, "shopping/main.html", context)
 
 
 def search_result(request): # S02
@@ -49,8 +62,8 @@ def cart(request):  # S04
 
 
 def login(request): # M01
-    if request.session.get('is_login', None):
-        return redirect('webapp:S01')
+    # if request.session.get('is_login', None):
+    #     return redirect('webapp:S01')
     
     if request.method == 'POST':
         login_form = forms.UserForm(request.POST)

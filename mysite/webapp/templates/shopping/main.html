@@ -30,10 +30,21 @@
         <button type="submit">検索</button>
     </form>
 
-    <p><a href='{% url "webapp:S04" %}'>ショッピングカートを見る</a></p>
-    <p>購入履歴</p>
-    <p><a href='{% url "webapp:M01" %}'>ログイン</a></p>
-    <p>管理者ページ</p>
+    <div>
+        <p><a href='{% url "webapp:S04" %}'>ショッピングカートを見る</a></p>
+        <p>購入履歴</p>
+    
+        {% if not is_login %}
+            <p><a href='{% url "webapp:M01" %}'>ログイン</a></p>
+            <p>管理者ページ</p>
+
+        {% else %}
+            <div>
+                ようこそ{{ user.name }}さん
+                <!-- <a href="{% url 'webapp:' %}"></a> -->
+            </div>
+        {% endif %}
+    </div>
 
 </body>
 </html>
