@@ -79,8 +79,6 @@ class ItemDetail(View): # S03
         )
 
         item_incart.save()
-        print(request.session.get('user_id'))
-        print(request.POST.get('quantity'))
 
         return redirect(reverse('webapp:S04'))
 
