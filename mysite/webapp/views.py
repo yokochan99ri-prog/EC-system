@@ -145,5 +145,20 @@ def register_user_commit(request):  # M04
 
     return render(request, "user/registerUserCommit.html")
 
+def user_info(request): # M05
+    return render(request, 'user/userInfo.html')
 
+def update_user(request): # M06
+    return render(request, 'user/updateUser.html')
 
+def update_user_confirm(request):   # M07
+    return render(request, 'user/updateUserConfirm.html')
+
+def update_user_commit(request):    # M08
+    return render(request, 'user/updateUserCommit.html')
+
+def withdraw_confirm(request):  # M09
+    return render(request, 'user/withdrawConfirm.html')
+
+def withdraw_commit(request):   # M10
+    return render(request, 'user/withdrawCommit.html')

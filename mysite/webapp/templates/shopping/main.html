@@ -40,8 +40,11 @@
 
         {% else %}
             <div>
-                ようこそ{{ user.name }}さん
-                <!-- <a href="{% url 'webapp:' %}"></a> -->
+                ようこそ{{ user.name }}さん<br> 
+                <a href="{% url 'webapp:M05' %}">会員情報の確認</a><br>
+                <a href="{% url 'webapp:M06' %}">会員情報の変更</a><br>
+                <a href="{% url 'webapp:M01' %}">ログアウト</a><br>
+                管理者ページ
             </div>
         {% endif %}
     </div>
