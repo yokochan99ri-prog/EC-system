@@ -64,16 +64,33 @@ class ItemDetail(View): # S03
 
         return render(request, 'shopping/itemDetail.html', locals())
     
-    # def post(self, request):
+    def post(self, request, item_id):
 
-    #     product_in_cart = models.ShoppingItemsInCart(request.POST)
+        product = models.ShoppingItem.objects.get(item_id=item_id)
+        quantity = request.POST.get('quantity')
+        user_id = request.session.get('user_id')
 
-    #     if not product_in_cart.is_valid():
+        item_incart = models.ShoppingItemsInCart(
+            amount=quantity,
+            item=product,
+            user_id=user_id
+        )
+
+        item_incart.save()
+        print(request.session.get('user_id'))
+        print(request.POST.get('quantity'))
+
+        return redirect(reverse('webapp:S04'))
 
 
 
 def cart(request):  # S04
-    return render(request, "shopping/cart.html")
+
+    user_id = request.session.get('user_id')
+    cart_items = models.ShoppingItemsInCart.objects.filter(user_id=user_id)
+
+
+    return render(request, "shopping/cart.html", {"cart_items": cart_items})
 
 
 def login(request): # M01

@@ -33,11 +33,13 @@
     </table>
 
     {% if on_sale %}
-        <form action="{% url 'webapp:S04' %}" method="get">
+        <!-- <form action="{% url 'webapp:S04' %}" method="post"> -->
+        <form method="post">
+            {% csrf_token %}
             数量
             <select name="quantity">
-                {% for q in quantities %}
-                    <option value="{{ q }}">{{q}}</option>
+                {% for quantity in quantities %}
+                    <option value="{{ quantity }}">{{quantity}}</option>
                 {% endfor %}
             </select>
             <br>

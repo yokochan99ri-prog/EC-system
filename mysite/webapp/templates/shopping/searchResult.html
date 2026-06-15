@@ -10,7 +10,6 @@
 
     <h2>キーワード "{{ keyword }}" カテゴリ "{{ category }}" の検索結果</h2>
 
-    <!-- 検索結果テーブル -->
     <table border="1">
         <tr>
             <th>商品名</th>
@@ -22,7 +21,6 @@
         {% for product in products %}
         <tr>
             <td><a href="{% url 'webapp:S03' product.item_id %}">{{ product.name }}</a></td>
-            <!-- <td>{{ product.name }}</td> -->
             <td>{{ product.color }}</td>
             <td>{{ product.manufacturer }}</td>
             <td>{{ product.price }}</td>
