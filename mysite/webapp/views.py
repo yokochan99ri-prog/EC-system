@@ -103,8 +103,8 @@ def cart(request):  # S04
 
 
 def login(request): # M01
-    # if request.session.get('is_login', None):
-    #     return redirect('webapp:S01')
+    if request.session.get('is_login', None):
+        return redirect('webapp:S01')
     
     if request.method == 'POST':
         login_form = forms.UserForm(request.POST)
