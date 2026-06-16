@@ -153,42 +153,42 @@ class RegisterUser(View):   # M02
         form = forms.UserCreateForm(request.POST)
 
         if not form.is_valid():
-            context = {
-                "form": form,
-            }
-            return render(request, "user/registerUser.html", context)
-        
-        request.session["register_data"] = form.cleaned_data
-        return redirect('webapp:M03')
+            return render(request, "user/registerUser.html", {"form": form})
+
+        return render(request, "user/registerUserConfirm.html", {"form": form})
 
 
 def register_user_confirm(request): # M03
 
-    data = request.session.get('register_data')
+    if request.method != "POST":
+        return redirect("webapp:M02")
+    
+    form = forms.UserCreateForm(request.POST)
 
-    if not data:
-        return redirect('webapp:M02')
-
-    return render(request, "user/registerUserConfirm.html", {"data": data})
+    if not form.is_valid():
+        return render(request, "user/registerUser.html", {"form": form})
+    
+    return render(request, "user/registerUserConfirm.html", {"form": form})
 
 
 def register_user_commit(request):  # M04
 
-    data = request.session.get('register_data')
-
-    if not data:
+    if request.method != "POST":
         return redirect('webapp:M02')
     
-    new_user = models.AccountUser()
-    new_user.user_id = data['user_id']
-    new_user.password = data['password']
-    new_user.name = data['name']
-    new_user.address = data['address']
-    new_user.save()
-    
-    del request.session['register_data']
+    form = forms.UserCreateForm(request.POST)
 
-    return render(request, "user/registerUserCommit.html")
+    if not form.is_valid():
+        return render(request, "user/registerUser.html", {"form": form})
+    
+    new_user = models.AccountUser()
+    new_user.user_id = form.cleaned_data['user_id']
+    new_user.password = form.cleaned_data['password']
+    new_user.name = form.cleaned_data['name']
+    new_user.address = form.cleaned_data['address']
+    new_user.save()
+
+    return render(request, "user/registerUserCommit.html", {"new_user": new_user})
 
 def user_info(request): # M05
     return render(request, 'user/userInfo.html')

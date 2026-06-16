@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/style.css' %}" />
 </head>
 <body>
-    <form action="{% url 'webapp:M02' %}" method="POST">
+    <form action="{% url 'webapp:M03' %}" method="POST">
         {% csrf_token %}
         <table>
             {% for field in form %}
@@ -37,5 +37,6 @@
             </tr>
         </table>
     </form>
+    <p><a href="{% url 'webapp:S01' %}">商品検索</a>へ</p>
 </body>
 </html>
