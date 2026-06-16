@@ -189,53 +189,50 @@ def user_info(request): # M05
 
     return render(request, 'user/userInfo.html', {"user": user})
 
-class updateUser(View): # M06
+class updateUser(View):  # M06
 
     def get(self, request):
-
         user_id = request.session.get('user_id')
         user = models.AccountUser.objects.get(user_id=user_id)
-        form = forms.UserCreateForm()
+        form = forms.UserUpdateForm(instance=user)
 
         return render(request, "user/updateUser.html", {"user": user, "form": form})
 
     def post(self, request):
-
-        form = forms.UserCreateForm(request.POST)
+        user_id = request.session.get('user_id')
+        user = models.AccountUser.objects.get(user_id=user_id)
+        form = forms.UserUpdateForm(request.POST, instance=user)
 
         if not form.is_valid():
-            return render(request, "user/updateUser.html", {"form": form})
+            return render(request, "user/updateUser.html", {"user": user, "form": form})
 
-        return render(request, "user/updateUserConfirm.html", {"form": form})
-    
+        return render(request, "user/updateUserConfirm.html", {"user": user, "form": form})
+
+
 def update_user_confirm(request):   # M07
+    # 必須でなければ未使用にする
+    return redirect(reverse("webapp:M06"))
 
-    if request.method != "POST":
-        return redirect(reverse("webapp:M01"))
-    
-    form = forms.UserCreateForm(request.POST)
-
-    if not form.is_valid():
-        return render(request, "user/updateUser.html", {"form": form})
-    
-    return render(request, 'user/updateUserConfirm.html', {"form": form})
 
 def update_user_commit(request):    # M08
-
     if request.method != "POST":
-        return redirect(reverse('webapp:M01'))
-    
-    form = forms.AccountUser(request.POST)
-
-    if not form.is_valid():
-        return render(request, "user/updateUserConfirm", {"form": form})
+        return redirect(reverse('webapp:M06'))
 
     user_id = request.session.get('user_id')
     update_user = models.AccountUser.objects.get(user_id=user_id)
-    update_user.user_id = request.POST["user_id"]
-    update_user.password = request.POST["password"]
-    update_user.name = request.POST["name"]
-    update_user.address = request.POST["address"]
+    form = forms.UserUpdateForm(request.POST, instance=update_user)
+
+    if not form.is_valid():
+        return render(request, "user/updateUserConfirm.html", {"form": form, "user": update_user})
+
+    update_user = form.save(commit=False)
+    password = form.cleaned_data.get("password")
+
+    if password:
+        update_user.password = password
+        # Django認証を使うなら:
+        # update_user.set_password(password)
+
     update_user.save()
 
     return render(request, 'user/updateUserCommit.html', {"update_user": update_user})

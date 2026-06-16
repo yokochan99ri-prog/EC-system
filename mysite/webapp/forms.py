@@ -35,8 +35,8 @@ class UserCreateForm(forms.Form):
 
 class UserUpdateForm(forms.ModelForm):
 
-    password = forms.CharField(label="パスワード", max_length=256, widget=forms.PasswordInput(), required=False)
-    password_check = forms.CharField(label="パスワード(確認)", max_length=256, widget=forms.PasswordInput(), required=False)
+    password = forms.CharField(label="パスワード", max_length=256, widget=forms.PasswordInput(render_value=False), required=False)
+    password_check = forms.CharField(label="パスワード(確認)", max_length=256, widget=forms.PasswordInput(render_value=False), required=False)
 
     class Meta:
         model = AccountUser
@@ -45,17 +45,22 @@ class UserUpdateForm(forms.ModelForm):
     def clean_user_id(self):
         value = self.cleaned_data["user_id"]
         queryset = AccountUser.objects.filter(user_id=value)
+
         if self.instance.pk:
             queryset = queryset.exclude(pk=self.instance.pk)
+
         if queryset.exists():
             raise forms.ValidationError("このIDは使用されています")
+
         return value
     
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
         password_check = cleaned_data.get('password_check')
+
         if password or password_check:
             if password != password_check:
                 raise forms.ValidationError('パスワードが一致しません')
+
         return cleaned_data
