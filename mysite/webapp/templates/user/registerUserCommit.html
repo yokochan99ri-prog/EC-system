@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href='{% static "webapp/css/style.css"}'>
 </head>
 <body>
-    
+    <h2>{{ new_user.name }}さんの会員登録が完了しました。</h2>
+    <p><a href="{% url 'webapp:S01' %}">商品検索</a>へ</p>
 </body>
 </html>

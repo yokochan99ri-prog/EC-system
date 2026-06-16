@@ -22,12 +22,10 @@ def main(request):  # S01
 
     return render(request, "shopping/main.html", context)
 
-
 def logout(request):
     if request.session.get('is_login', None):
         request.session.flush()
     return redirect(reverse('webapp:M01'))
-
 
 def search_result(request): # S02
 
@@ -53,7 +51,6 @@ def search_result(request): # S02
     }
 
     return render(request, "shopping/searchResult.html", context)
-
 
 class ItemDetail(View): # S03
 
@@ -88,7 +85,6 @@ class ItemDetail(View): # S03
 
         return redirect(reverse('webapp:S04'))
 
-
 def cart(request):  # S04
 
     user_id = request.session.get('user_id')
@@ -105,10 +101,9 @@ def cart(request):  # S04
 
     return render(request, "shopping/cart.html", context)
 
-
 def login(request): # M01
     if request.session.get('is_login', None):
-        return redirect('webapp:S01')
+        return redirect(reverse('webapp:S01'))
     
     if request.method == 'POST':
         login_form = forms.UserForm(request.POST)
@@ -128,7 +123,7 @@ def login(request): # M01
             if user.password == password:
                 request.session['is_login']=True
                 request.session['user_id']=user.user_id
-                return redirect('webapp:S01')
+                return redirect(reverse('webapp:S01'))
             
             else:
                 message='パスワードが正しくありません。'
@@ -136,7 +131,6 @@ def login(request): # M01
             
     login_form = forms.UserForm()
     return render(request, 'user/login.html', locals())
-
 
 class RegisterUser(View):   # M02
 
@@ -157,11 +151,10 @@ class RegisterUser(View):   # M02
 
         return render(request, "user/registerUserConfirm.html", {"form": form})
 
-
 def register_user_confirm(request): # M03
 
     if request.method != "POST":
-        return redirect("webapp:M02")
+        return redirect(reverse("webapp:M02"))
     
     form = forms.UserCreateForm(request.POST)
 
@@ -170,11 +163,10 @@ def register_user_confirm(request): # M03
     
     return render(request, "user/registerUserConfirm.html", {"form": form})
 
-
 def register_user_commit(request):  # M04
 
     if request.method != "POST":
-        return redirect('webapp:M02')
+        return redirect(reverse('webapp:M02'))
     
     form = forms.UserCreateForm(request.POST)
 
@@ -191,16 +183,62 @@ def register_user_commit(request):  # M04
     return render(request, "user/registerUserCommit.html", {"new_user": new_user})
 
 def user_info(request): # M05
-    return render(request, 'user/userInfo.html')
 
-def update_user(request): # M06
-    return render(request, 'user/updateUser.html')
+    user_id = request.session.get("user_id")
+    user = models.AccountUser.objects.get(user_id=user_id)
 
+    return render(request, 'user/userInfo.html', {"user": user})
+
+class updateUser(View): # M06
+
+    def get(self, request):
+
+        user_id = request.session.get('user_id')
+        user = models.AccountUser.objects.get(user_id=user_id)
+        form = forms.UserCreateForm()
+
+        return render(request, "user/updateUser.html", {"user": user, "form": form})
+
+    def post(self, request):
+
+        form = forms.UserCreateForm(request.POST)
+
+        if not form.is_valid():
+            return render(request, "user/updateUser.html", {"form": form})
+
+        return render(request, "user/updateUserConfirm.html", {"form": form})
+    
 def update_user_confirm(request):   # M07
-    return render(request, 'user/updateUserConfirm.html')
+
+    if request.method != "POST":
+        return redirect(reverse("webapp:M01"))
+    
+    form = forms.UserCreateForm(request.POST)
+
+    if not form.is_valid():
+        return render(request, "user/updateUser.html", {"form": form})
+    
+    return render(request, 'user/updateUserConfirm.html', {"form": form})
 
 def update_user_commit(request):    # M08
-    return render(request, 'user/updateUserCommit.html')
+
+    if request.method != "POST":
+        return redirect(reverse('webapp:M01'))
+    
+    form = forms.AccountUser(request.POST)
+
+    if not form.is_valid():
+        return render(request, "user/updateUserConfirm", {"form": form})
+
+    user_id = request.session.get('user_id')
+    update_user = models.AccountUser.objects.get(user_id=user_id)
+    update_user.user_id = request.POST["user_id"]
+    update_user.password = request.POST["password"]
+    update_user.name = request.POST["name"]
+    update_user.address = request.POST["address"]
+    update_user.save()
+
+    return render(request, 'user/updateUserCommit.html', {"update_user": update_user})
 
 def withdraw_confirm(request):  # M09
     return render(request, 'user/withdrawConfirm.html')
