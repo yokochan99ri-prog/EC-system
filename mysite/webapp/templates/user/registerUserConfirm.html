@@ -30,12 +30,12 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button type="submit">登録確認</button>
+                    <button type="submit">登録</button>
                 </td>
             </tr>
         </table> 
         {% for field in form %}
-            <input type="hidden" name="{{ field.name }}" value="{{ filed.value }}">
+            <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
         {% endfor %}
     </form>
     <p><a href="{% url 'webapp:S01' %}">商品検索</a>へ</p>
