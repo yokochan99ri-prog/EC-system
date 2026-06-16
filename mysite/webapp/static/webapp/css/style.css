@@ -13,7 +13,7 @@ body {
 } */
 
 table {
-    width: 100px;
+    /* width: 100px; */
     border-collapse: collapse; /* 枠線を1本にする */
 }
 
