@@ -208,11 +208,9 @@ class updateUser(View):  # M06
 
         return render(request, "user/updateUserConfirm.html", {"user": user, "form": form})
 
-
 def update_user_confirm(request):   # M07
-    # 必須でなければ未使用にする
-    return redirect(reverse("webapp:M06"))
 
+    return redirect(reverse("webapp:M06"))
 
 def update_user_commit(request):    # M08
     if request.method != "POST":
@@ -230,15 +228,29 @@ def update_user_commit(request):    # M08
 
     if password:
         update_user.password = password
-        # Django認証を使うなら:
-        # update_user.set_password(password)
 
     update_user.save()
 
     return render(request, 'user/updateUserCommit.html', {"update_user": update_user})
 
-def withdraw_confirm(request):  # M09
-    return render(request, 'user/withdrawConfirm.html')
+class withdrawConfirm(View):    # M09
 
-def withdraw_commit(request):   # M10
-    return render(request, 'user/withdrawCommit.html')
+    def get(self, request):
+
+        user_id = request.session.get('user_id')
+        name = models.AccountUser.objects.get(user_id=user_id)
+
+        return render(request, "user/withdrawConfirm.html", {"name": name})
+    
+    def post(self, request):
+
+        user_id = request.session.get('user_id')
+        user = models.AccountUser.objects.get(user_id=user_id)
+        name = user.name
+        user.delete()
+        request.session.flush()
+
+        return render(request, "user/withdrawCommit.html", {"name": name})
+
+# def withdraw_commit(request):   # M10
+#     return render(request, 'user/withdrawCommit.html')

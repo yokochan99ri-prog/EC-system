@@ -16,7 +16,7 @@ urlpatterns = [
     path('updateUser/', views.updateUser.as_view(), name='M06'),
     path('updateUserConfirm/', views.update_user_confirm, name='M07'),
     path('updateUserCommit/', views.update_user_commit, name='M08'),
-    path('withdrawConfirm/', views.withdraw_confirm, name='M09'),
-    path('withdrawCommit/', views.withdraw_commit, name='M10'),
+    path('withdrawConfirm/', views.withdrawConfirm.as_view(), name='M09'),
+    # path('withdrawCommit/', views.withdraw_commit, name='M10'),
     path('logout/', views.logout, name='logout')
 ]
