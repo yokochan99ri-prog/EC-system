@@ -24,7 +24,7 @@ class UserCreateForm(forms.Form):
             raise forms.ValidationError("このIDは使用されています")
         return value
     
-    def clean():
+    def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
         password_check = cleaned_data.get('password_check')

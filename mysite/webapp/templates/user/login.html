@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href='{% static "webapp/css/style.css"}'>
 </head>
 <body>
-    <h3>ログインしてください。</h3>
+    <h2>ログインしてください。</h2>
     <form action="{% url 'webapp:M01' %}" method="POST">
         {% csrf_token %}
         <table>

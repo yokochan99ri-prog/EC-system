@@ -8,8 +8,31 @@
     <link rel="stylesheet" type="text/css" href='{% static "webapp/css/style.css"}'>
 </head>
 <body>
+    <h2>以下の情報で登録しますか？</h2>
     <form action="{% url 'webapp:M04' %}" method="POST">
         {% csrf_token %}
+        <table>
+            <tr>
+                <th>会員ID</th>
+                <td>{{ data.user_id }}</td>
+            </tr>
+            <tr>
+                <th>パスワード</th>
+                <td>{{ product.color }}</td>
+            </tr>
+            <tr>
+                <th>お名前</th>
+                <td>{{ product.manufacturer }}</td>
+            </tr>
+            <tr>
+                <th>価格</th>
+                <td>{{ product.price }}</td>
+            </tr>
+            <tr>
+                <th>在庫数</th>
+                <td>{{ product.stock }}</td>
+            </tr>
+        </table>
         <p>ID: {{ data.user_id }}</p>
         <p>名前: {{ data.name }}</p>
         <p>住所: {{ data.address }}</p>
