@@ -24,7 +24,9 @@ def main(request):  # S01
 
 
 def logout(request):
-    pass
+    if request.session.get('is_login', None):
+        request.session.flush()
+    return redirect(reverse('webapp:M01'))
 
 
 def search_result(request): # S02

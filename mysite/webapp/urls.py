@@ -4,7 +4,6 @@ from . import views
 app_name = "webapp"
 
 urlpatterns = [
-    path('', views.main),
     path('', views.main, name='S01'),
     path('items/', views.search_result, name='S02'),
     path('items/<int:item_id>', views.ItemDetail.as_view(), name='S03'),
@@ -19,4 +18,5 @@ urlpatterns = [
     path('updateUserCommit/', views.update_user_commit, name='M08'),
     path('withdrawConfirm/', views.withdraw_confirm, name='M09'),
     path('withdrawCommit/', views.withdraw_commit, name='M10'),
+    path('logout/', views.logout, name='logout')
 ]
