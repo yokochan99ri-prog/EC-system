@@ -12,7 +12,7 @@
     <table>
         <tr>
             <th>会員ID:</th>
-            <td>{{ update_user.user_id }}</td>
+            <td>{{ user.user_id }}</td>
         </tr>
         <tr>
             <th>パスワード:</th>
@@ -20,11 +20,11 @@
         </tr>
         <tr>
             <th>お名前:</th>
-            <td>{{ update_user.name }}</td>
+            <td>{{ user.name }}</td>
         </tr>
         <tr>
             <th>ご住所:</th>
-            <td>{{ update_user.address }}</td>
+            <td>{{ user.address }}</td>
         </tr>
     </table>
     <p><a href="{% url 'webapp:S01' %}">商品検索</a>へ</p>

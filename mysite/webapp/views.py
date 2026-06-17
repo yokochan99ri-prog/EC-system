@@ -25,7 +25,8 @@ def main(request):  # S01
 def logout(request):
     if request.session.get('is_login', None):
         request.session.flush()
-    return redirect(reverse('webapp:M01'))
+        return redirect(reverse('webapp:M01'))
+    return redirect(reverse('webapp:S01'))
 
 def search_result(request): # S02
 
@@ -86,7 +87,8 @@ class ItemDetail(View): # S03
         return redirect(reverse('webapp:S04'))
 
 def cart(request):  # S04
-
+    # if not request.session.get("is_login", None):
+    #     return redirect(reverse('webapp:M01'))
     user_id = request.session.get('user_id')
     cart_items = models.ShoppingItemsInCart.objects.filter(user_id = user_id).select_related('item')
     total_cost = 0
@@ -117,7 +119,7 @@ def login(request): # M01
                 user = models.AccountUser.objects.get(user_id=user_id)
 
             except:
-                message = 'ユーザが存在しません'
+                message = 'ユーザーが存在しません'
                 return render(request, 'user/login.html', locals())
             
             if user.password == password:
@@ -179,11 +181,14 @@ def register_user_commit(request):  # M04
     new_user.name = form.cleaned_data['name']
     new_user.address = form.cleaned_data['address']
     new_user.save()
+    request.session["is_login"] = True
+    request.session["user_id"] = new_user.user_id
 
     return render(request, "user/registerUserCommit.html", {"new_user": new_user})
 
 def user_info(request): # M05
-
+    if not request.session.get("is_login", None):
+        return redirect(reverse('webapp:M01'))
     user_id = request.session.get("user_id")
     user = models.AccountUser.objects.get(user_id=user_id)
 
@@ -192,6 +197,8 @@ def user_info(request): # M05
 class updateUser(View):  # M06
 
     def get(self, request):
+        if not request.session.get("is_login", None):
+            return redirect(reverse('webapp:M01'))
         user_id = request.session.get('user_id')
         user = models.AccountUser.objects.get(user_id=user_id)
         form = forms.UserUpdateForm(instance=user)
@@ -199,6 +206,8 @@ class updateUser(View):  # M06
         return render(request, "user/updateUser.html", {"user": user, "form": form})
 
     def post(self, request):
+        if not request.session.get("is_login", None):
+            return redirect(reverse('webapp:M01'))
         user_id = request.session.get('user_id')
         user = models.AccountUser.objects.get(user_id=user_id)
         form = forms.UserUpdateForm(request.POST, instance=user)
@@ -209,29 +218,52 @@ class updateUser(View):  # M06
         return render(request, "user/updateUserConfirm.html", {"user": user, "form": form})
 
 def update_user_confirm(request):   # M07
-
+    if not request.session.get("is_login", None):
+            return redirect(reverse('webapp:M01'))
     return redirect(reverse("webapp:M06"))
 
 def update_user_commit(request):    # M08
+    
     if request.method != "POST":
         return redirect(reverse('webapp:M06'))
+    
+    if not request.session.get("is_login", None):
+        return redirect(reverse("webapp:M01"))
 
     user_id = request.session.get('user_id')
-    update_user = models.AccountUser.objects.get(user_id=user_id)
-    form = forms.UserUpdateForm(request.POST, instance=update_user)
+    user = models.AccountUser.objects.get(user_id=user_id) 
+    user.name = request.POST.get("name")
+    user.address = request.POST.get("address")
 
-    if not form.is_valid():
-        return render(request, "user/updateUserConfirm.html", {"form": form, "user": update_user})
+    if request.POST.get("password"):
+        user.password = request.POST.get("password")
 
-    update_user = form.save(commit=False)
-    password = form.cleaned_data.get("password")
+    if user.user_id != request.POST.get("user_id"):
+        previous_user = models.AccountUser.objects.get(user_id=user.user_id)
+        user.user_id = request.POST.get("user_id")
+        previous_user.delete()
+    else:
+        user.user_id = request.POST.get("user_id")
 
-    if password:
-        update_user.password = password
+    user.save()
+    request.session["user_id"] = user.user_id
 
-    update_user.save()
+    # user_id = request.session.get('user_id')
+    # update_user = models.AccountUser.objects.get(user_id=user_id)
+    # form = forms.UserUpdateForm(request.POST, instance=update_user)
 
-    return render(request, 'user/updateUserCommit.html', {"update_user": update_user})
+    # if not form.is_valid():
+    #     return render(request, "user/updateUserConfirm.html", {"form": form, "user": update_user})
+
+    # update_user = form.save(commit=False)
+    # password = form.cleaned_data.get("password")
+
+    # if password:
+    #     update_user.password = password
+
+    # update_user.save()
+
+    return render(request, 'user/updateUserCommit.html', {"user": user})
 
 class withdrawConfirm(View):    # M09
 

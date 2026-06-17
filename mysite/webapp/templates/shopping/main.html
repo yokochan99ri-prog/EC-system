@@ -32,11 +32,11 @@
 
     <div>
         <p><a href='{% url "webapp:S04" %}'>ショッピングカートを見る</a></p>
-        <p>購入履歴</p>
+        <p>購入履歴（未実装）</p>
     
         {% if not is_login %}
             <p><a href='{% url "webapp:M01" %}'>ログイン</a></p>
-            <p>管理者ページ</p>
+            <p>管理者ページ（未実装）</p>
 
         {% else %}
             <div>
@@ -44,7 +44,7 @@
                 <a href="{% url 'webapp:M05' %}">会員情報の確認</a><br>
                 <a href="{% url 'webapp:M06' %}">会員情報の変更</a><br>
                 <a href="{% url 'webapp:logout' %}">ログアウト</a><br>
-                管理者ページ
+                管理者ページ（未実装）
             </div>
         {% endif %}
     </div>

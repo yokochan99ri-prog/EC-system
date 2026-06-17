@@ -28,7 +28,7 @@
             </tr>
         {% empty %}
             <tr>
-                <td colspan="4">まだカートに商品が追加されていません</td>
+                <td colspan="5">まだカートに商品が追加されていません</td>
             </tr>
         {% endfor %}
     </table>
@@ -37,7 +37,7 @@
         合計 {{ total_cost }} 円
     {% endif %}
 
-    <br><button>購入する</button>
+    <br><button>購入する（未実装）</button>
 
     <p><a href='{% url "webapp:S01" %}'>商品検索</a>へ</p>  
 

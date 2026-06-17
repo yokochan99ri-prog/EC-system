@@ -21,12 +21,13 @@ th {
     background-color: #c5dfff; /* 見出しの色 */
     border: 1px solid #333;
     padding: 8px;
-    text-align: left;
+    text-align: center;
 }
 
 td {
     border: 1px solid #333;
     padding: 8px;
+	text-align: center;
 }
 
 .form, .article, .error {

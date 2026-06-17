@@ -42,10 +42,10 @@
                     <button type="submit">変更</button>
                 </td>
             </tr>
-
-            {{ form.non_field_errors }}
+            <!-- {% if form.errors %}
             <tr>
                 <td colspan="2">
+                    {{ form.non_field_errors }}
                     {{ form.user_id.errors }}
                     {{ form.password.errors }}
                     {{ form.password_check.errors }}
@@ -53,8 +53,15 @@
                     {{ form.address.errors }}
                 </td>
             </tr>
+            {% endif %} -->
 
         </table>
+        {{ form.non_field_errors }}
+        {{ form.user_id.errors }}
+        {{ form.password.errors }}
+        {{ form.password_check.errors }}
+        {{ form.name.errors }}
+        {{ form.address.errors }}
     </form>
     <p><a href="{% url 'webapp:M09' %}">退会する</a></p>
     <p>
