@@ -1,11 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>退会完了</title>
+    <link rel="stylesheet" type="text/css" href='{% static "webapp/css/style.css"}'>
 </head>
 <body>
-    
+    <h2>{{ name }}さん、退会処理を完了しました。</h2>
+    <h2>またのご利用をお待ちしております。</h2>
+    <p><a href="{% url 'webapp:M01' %}">ログイン画面</a>へ</p>
 </body>
 </html>

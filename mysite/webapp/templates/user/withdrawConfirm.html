@@ -1,11 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>退会確認</title>
+    <link rel="stylesheet" type="text/css" href='{% static "webapp/css/style.css"}'>
 </head>
 <body>
-    
+    <h2>{{ name }}さん、本当に退会しますか？</h2>
+    <p>
+        <form action="{% url 'webapp:M09' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">退会</button>
+        </form>
+    </p>
+    <p><a href="{% url 'webapp:S01' %}">商品検索</a>へ</p>
 </body>
 </html>

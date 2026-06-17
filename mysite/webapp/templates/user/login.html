@@ -1,13 +1,13 @@
-<!-- {% load static %} -->
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv='Content-Type' content='text/html'; charset="UTF-8">
     <title>会員ログイン画面</title>
-    <!-- <link rel="stylesheet" type="text/css" href='{% static "account/css/style.css"}'> -->
+    <link rel="stylesheet" type="text/css" href='{% static "webapp/css/style.css"}'>
 </head>
 <body>
-    <h3>ログインしてください。</h3>
+    <h2>ログインしてください。</h2>
     <form action="{% url 'webapp:M01' %}" method="POST">
         {% csrf_token %}
         <table>
@@ -20,5 +20,6 @@
             <div>{{message}}</div>
         {% endif %}
     </form>
+    <p><a href="{% url 'webapp:M02' %}">会員登録</a></p>
 </body>
 </html>

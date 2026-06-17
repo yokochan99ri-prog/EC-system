@@ -1,11 +1,72 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>会員情報</title>
+    <link rel="stylesheet" type="text/css" href='{% static "webapp/css/style.css" %}' />
 </head>
 <body>
-    
+    <h2>会員情報</h2>
+    <form action="{% url 'webapp:M06' %}" method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>会員ID</th>
+                <td>{{ form.user_id }}</td>
+            </tr>
+            
+            <tr>
+                <th>パスワード</th>
+                <td>{{ form.password }}</td>
+            </tr>
+            
+            <tr>
+                <th>パスワード（確認）</th>
+                <td>{{ form.password_check }}</td>
+            </tr>
+            
+            <tr>
+                <th>お名前</th>
+                <td>{{ form.name }}</td>
+            </tr>
+            
+            <tr>
+                <th>住所</th>
+                <td>{{ form.address }}</td>
+            </tr>
+            
+            <tr>
+                <td colspan="2">
+                    <button type="submit">変更</button>
+                </td>
+            </tr>
+            <!-- {% if form.errors %}
+            <tr>
+                <td colspan="2">
+                    {{ form.non_field_errors }}
+                    {{ form.user_id.errors }}
+                    {{ form.password.errors }}
+                    {{ form.password_check.errors }}
+                    {{ form.name.errors }}
+                    {{ form.address.errors }}
+                </td>
+            </tr>
+            {% endif %} -->
+
+        </table>
+        {{ form.non_field_errors }}
+        {{ form.user_id.errors }}
+        {{ form.password.errors }}
+        {{ form.password_check.errors }}
+        {{ form.name.errors }}
+        {{ form.address.errors }}
+    </form>
+    <p><a href="{% url 'webapp:M09' %}">退会する</a></p>
+    <p>
+        購入履歴へ（未実装）
+        <a href="{% url 'webapp:S01' %}">商品検索</a>へ
+    </p>
 </body>
 </html>

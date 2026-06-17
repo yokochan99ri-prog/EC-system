@@ -1,11 +1,45 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ショッピングカート</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/style.css' %}" />
 </head>
 <body>
-    
+    <h2>ショッピングカート内の商品一覧</h2>
+    <table border="1">
+        <tr>
+            <th>商品名</th>
+            <th>商品の色</th>
+            <th>メーカー名</th>
+            <th>単価</th>
+            <th>個数</th>
+        </tr>
+
+        {% for cart in cart_items %}
+            <tr>
+                <td>{{ cart.item.name }}</td>
+                <td>{{ cart.item.color }}</td>
+                <td>{{ cart.item.manufacturer }}</td>
+                <td>{{ cart.item.price }}</td>
+                <td>{{ cart.amount }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">まだカートに商品が追加されていません</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% if cart_items %}
+        合計 {{ total_cost }} 円
+    {% endif %}
+
+    <br><button>購入する（未実装）</button>
+
+    <p><a href='{% url "webapp:S01" %}'>商品検索</a>へ</p>  
+
 </body>
 </html>

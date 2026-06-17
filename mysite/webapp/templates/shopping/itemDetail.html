@@ -1,11 +1,67 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品詳細</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/style.css' %}" />
 </head>
 <body>
-    
+    <h2>商品の詳細表示</h2>
+    <table>
+        <tr>
+            <th>商品名</th>
+            <td>{{ product.name }}</td>
+        </tr>
+        <tr>
+            <th>商品の色</th>
+            <td>{{ product.color }}</td>
+        </tr>
+        <tr>
+            <th>メーカー名</th>
+            <td>{{ product.manufacturer }}</td>
+        </tr>
+        <tr>
+            <th>価格</th>
+            <td>{{ product.price }}</td>
+        </tr>
+        <tr>
+            <th>在庫数</th>
+            <td>{{ product.stock }}</td>
+        </tr>
+    </table>
+
+    {% if on_sale %}
+        {% if is_login %}
+            <form method="post">
+                {% csrf_token %}
+                数量
+                <select name="quantity">
+                    {% for quantity in quantities %}
+                        <option value="{{ quantity }}">{{quantity}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <button type="submit">ショッピングカートに入れる</button>
+            </form>
+        {% else %}
+            <form action="{% url 'webapp:M01' %}" method="post">
+                {% csrf_token %}
+                数量
+                <select name="quantity">
+                    {% for quantity in quantities %}
+                        <option value="{{ quantity }}">{{quantity}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <button type="submit">ショッピングカートに入れる</button>
+            </form>
+        {% endif %}
+    {% else %}
+        現在在庫切れです。
+    {% endif %}
+
+    <p><a href="{% url 'webapp:S01' %}">商品検索</a>へ</p>
 </body>
 </html>
